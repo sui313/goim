@@ -108,7 +108,7 @@ func (s *Server) ServeTCP(conn *net.TCPConn, rp, wp *bytes.Pool, tr *xtime.Timer
 		lastHb  = time.Now()
 		rb      = rp.Get()
 		wb      = wp.Get()
-		ch      = NewChannel(s.c.Protocol.CliProto, s.c.Protocol.SvrProto)
+		ch      = NewChannel(s.c.Protocol.CliProto, s.c.Protocol.SvrProto)//5 10
 		rr      = &ch.Reader
 		wr      = &ch.Writer
 	)

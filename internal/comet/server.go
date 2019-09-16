@@ -70,10 +70,10 @@ func NewServer(c *conf.Config) *Server {
 		rpcClient: newLogicClient(c.RPCClient),
 	}
 	// init bucket
-	s.buckets = make([]*Bucket, c.Bucket.Size)
+	s.buckets = make([]*Bucket, c.Bucket.Size)//32
 	s.bucketIdx = uint32(c.Bucket.Size)
-	for i := 0; i < c.Bucket.Size; i++ {
-		s.buckets[i] = NewBucket(c.Bucket)
+	for i := 0; i < c.Bucket.Size; i++ {//¹¹½¨32¸öBucket
+		s.buckets[i] = NewBucket(c.Bucket)//
 	}
 	s.serverID = c.Env.Host
 	go s.onlineproc()

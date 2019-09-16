@@ -35,7 +35,7 @@ func NewRoom(job *Job, id string, c *conf.Room) (r *Room) {
 		c:     c,
 		id:    id,
 		job:   job,
-		proto: make(chan *comet.Proto, c.Batch*2),
+		proto: make(chan *comet.Proto, c.Batch*2),//Batch=20
 	}
 	go r.pushproc(c.Batch, time.Duration(c.Signal))
 	return

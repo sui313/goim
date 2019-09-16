@@ -24,13 +24,13 @@ type Bucket struct {
 // NewBucket new a bucket struct. store the key with im channel.
 func NewBucket(c *conf.Bucket) (b *Bucket) {
 	b = new(Bucket)
-	b.chs = make(map[string]*Channel, c.Channel)
+	b.chs = make(map[string]*Channel, c.Channel)//构建1024个Channel
 	b.ipCnts = make(map[string]int32)
 	b.c = c
-	b.rooms = make(map[string]*Room, c.Room)
-	b.routines = make([]chan *grpc.BroadcastRoomReq, c.RoutineAmount)
-	for i := uint64(0); i < c.RoutineAmount; i++ {
-		c := make(chan *grpc.BroadcastRoomReq, c.RoutineSize)
+	b.rooms = make(map[string]*Room, c.Room)//构建1024个Room
+	b.routines = make([]chan *grpc.BroadcastRoomReq, c.RoutineAmount)//32个[]chan *grpc.BroadcastRoomReq
+	for i := uint64(0); i < c.RoutineAmount; i++ {//32
+		c := make(chan *grpc.BroadcastRoomReq, c.RoutineSize)//1024个BroadcastRoomReq
 		b.routines[i] = c
 		go b.roomproc(c)
 	}

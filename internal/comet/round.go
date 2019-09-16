@@ -31,22 +31,24 @@ func NewRound(c *conf.Config) (r *Round) {
 	var i int
 	r = &Round{
 		options: RoundOptions{
-			Reader:       c.TCP.Reader,
-			ReadBuf:      c.TCP.ReadBuf,
-			ReadBufSize:  c.TCP.ReadBufSize,
-			Writer:       c.TCP.Writer,
-			WriteBuf:     c.TCP.WriteBuf,
-			WriteBufSize: c.TCP.WriteBufSize,
-			Timer:        c.Protocol.Timer,
-			TimerSize:    c.Protocol.TimerSize,
+			Reader:       c.TCP.Reader, //32
+			ReadBuf:      c.TCP.ReadBuf, //1024
+			ReadBufSize:  c.TCP.ReadBufSize,//8192
+			Writer:       c.TCP.Writer, //32
+			WriteBuf:     c.TCP.WriteBuf,//1024
+			WriteBufSize: c.TCP.WriteBufSize,//8192
+			Timer:        c.Protocol.Timer,//32
+			TimerSize:    c.Protocol.TimerSize,//2048
 		}}
+	//默认配置:构建32个读缓存区池；每个缓存区大小1024*8192K=8M，每个缓冲区分割成1024块，每块8K，每块之间用单向链表连接起来
+	//每次获取空闲块，用完放回池子
 	// reader
-	r.readers = make([]bytes.Pool, r.options.Reader)
+	r.readers = make([]bytes.Pool, r.options.Reader) //构建读缓存区
 	for i = 0; i < r.options.Reader; i++ {
 		r.readers[i].Init(r.options.ReadBuf, r.options.ReadBufSize)
 	}
 	// writer
-	r.writers = make([]bytes.Pool, r.options.Writer)
+	r.writers = make([]bytes.Pool, r.options.Writer)//构建写缓冲区
 	for i = 0; i < r.options.Writer; i++ {
 		r.writers[i].Init(r.options.WriteBuf, r.options.WriteBufSize)
 	}

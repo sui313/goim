@@ -45,7 +45,7 @@ func (p *Pool) init(num, size int) {
 }
 
 // grow grow the memory buffer size, and update free pointer.
-func (p *Pool) grow() {
+func (p *Pool) grow() {//构建num * size大小的缓冲区,将缓冲区切成num个，每个缓存区size个字节；每个缓存区用链表连接
 	var (
 		i   int
 		b   *Buffer
